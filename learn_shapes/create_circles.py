@@ -7,7 +7,7 @@ from PIL import Image
 circle_path = Path('data/circles')
 
 n_points = 300
-n_images = 100
+n_images = 1000
 
 for i in range(n_images):
     

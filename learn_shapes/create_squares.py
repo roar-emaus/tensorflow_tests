@@ -8,7 +8,7 @@ square_path = Path('data/squares')
 
 n_points = 1000
 n_points_line = int(n_points/4)
-n_images = 100
+n_images = 1000
 bot, top = 0.15, 0.65
 rang = 0.25
 
@@ -70,3 +70,4 @@ for i in range(n_images):
     degs = np.random.random()*360
     rotated = image_file.rotate(degs)
     rotated.save(fp=square_path/f'square_{i + n_images:08d}.png')
+
