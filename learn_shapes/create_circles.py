@@ -1,14 +1,15 @@
 import matplotlib.pyplot as plt
-import matplotlib.transforms as transforms
 import numpy as np
 from pathlib import Path
+from PIL import Image
 
 
 circle_path = Path('data/circles')
 
-n_points = 100
+n_points = 300
+n_images = 100
 
-for i in range(100):
+for i in range(n_images):
     
     theta_a = np.linspace(0, 2*np.pi, n_points)
     theta_b = np.linspace(0, 2*np.pi, n_points)
@@ -31,15 +32,25 @@ for i in range(100):
     b = r_b*np.sin(theta_b)
     
     dpi = 100
-    fig, ax = plt.subplots(figsize=(160/dpi, 160/dpi), dpi=dpi)
+    pixels = 120
+    fig, ax = plt.subplots(figsize=(pixels/dpi, pixels/dpi), dpi=dpi)
     
-    linewidth = (np.random.random() + 1)*4
+    linewidth = (np.random.random() + 0.1)*4
     ax.plot(a, b, color='black', linewidth=linewidth)
     ax.axis('off')
+    ax.set_ylim((-1.4, 1.4))
+    ax.set_xlim((-1.4, 1.4))
     ax.margins(0)
     ax.set_aspect(1)
-    plt.savefig(circle_path/f'circle_{i:04d}.png')
+    plt.savefig(circle_path/f'circle_{i:08d}.png')
     plt.close(fig)
     #plt.show()
 
 
+for i in range(n_images):
+    image_file = Image.open(circle_path/f'circle_{i:08d}.png')
+    degs = np.random.random()*360
+    rotated = image_file.rotate(degs)
+    rotated.save(fp=circle_path/f'circle_{i + n_images:08d}.png')
+
+    
