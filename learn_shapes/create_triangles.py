@@ -3,17 +3,10 @@ import numpy as np
 from pathlib import Path
 from PIL import Image
 
+from multiprocessing import Pool
 
-square_path = Path('data/triangles')
 
-n_points = 111 
-n_points_line = int(n_points/3)
-n_images = 2000
-
-bot, top = 0.15, 0.65
-rang = 0.2
-
-for i in range(n_images):
+def create_triangle(i):
     t = (np.random.random(), np.random.random()*rang + top)
     bl = (np.random.random()*0.45, np.random.random()*0.5)
     br = (np.random.random()*0.45 + 0.55, np.random.random()*0.5)
@@ -56,13 +49,26 @@ for i in range(n_images):
     ax.set_xlim((0, 1))
     #ax.margins(0)
     ax.set_aspect(1)
-    plt.savefig(square_path/f'triangle_{i:08d}.png')
+    plt.savefig(triangle_path/f'triangle_{i:08d}.png')
     plt.close(fig)
 
+triangle_path = Path('data/triangles')
 
-for i in range(n_images*4):
-    image_file = Image.open(square_path/f'triangle_{i:08d}.png')
+n_points = 111 
+n_points_line = int(n_points/3)
+n_images = 2000
+n_rots = 4000
+n_procs = 6
+
+bot, top = 0.15, 0.65
+rang = 0.2
+
+with Pool(n_procs) as p:
+    p.map(create_triangle, list(range(n_images)))
+
+for i in range(n_rots):
+    image_file = Image.open(triangle_path/f'triangle_{i:08d}.png')
     degs = np.random.random()*360
     rotated = image_file.rotate(degs)
-    rotated.save(fp=square_path/f'triangle_{i + n_images:08d}.png')
+    rotated.save(fp=triangle_path/f'triangle_{i + n_images:08d}.png')
 

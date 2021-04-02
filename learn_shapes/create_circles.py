@@ -1,18 +1,13 @@
+
 import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 from PIL import Image
 
+from multiprocessing import Pool
 
-circle_path = Path('data/circles')
 
-n_points = 50
-n_images = 2000
-dpi = 50
-pixels = 120
-
-for i in range(n_images):
-    
+def create_circle(i):
     theta_a = np.linspace(0, 2*np.pi, n_points)
     theta_b = np.linspace(0, 2*np.pi, n_points)
 
@@ -44,10 +39,20 @@ for i in range(n_images):
     ax.set_aspect(1)
     plt.savefig(circle_path/f'circle_{i:08d}.png')
     plt.close(fig)
-    #plt.show()
 
+circle_path = Path('data/circles')
 
-for i in range(n_images*4):
+n_points = 100
+n_images = 2000
+n_rots = 4000
+dpi = 50
+pixels = 120
+n_procs = 6
+
+with Pool(n_procs) as p:
+    p.map(create_circle, list(range(n_images)))
+
+for i in range(n_rots):
     image_file = Image.open(circle_path/f'circle_{i:08d}.png')
     degs = np.random.random()*360
     rotated = image_file.rotate(degs)

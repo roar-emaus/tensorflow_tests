@@ -2,17 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from pathlib import Path
 from PIL import Image
+from multiprocessing import Pool
 
 
-square_path = Path('data/squares')
-
-n_points = 100
-n_points_line = int(n_points/4)
-n_images = 2000
-bot, top = 0.05, 0.60
-rang = 0.25
-
-for i in range(n_images):
+def create_square(i):
     tl = (np.random.random()*rang + bot, np.random.random()*rang + top)
     tr = (np.random.random()*rang + top, np.random.random()*rang + top)
     bl = (np.random.random()*rang + bot, np.random.random()*rang + bot)
@@ -65,7 +58,21 @@ for i in range(n_images):
     plt.close(fig)
 
 
-for i in range(n_images*4):
+square_path = Path('data/squares')
+
+n_points = 100
+n_points_line = int(n_points/4)
+n_images = 2000
+n_rots = 4000
+bot, top = 0.05, 0.60
+rang = 0.25
+n_procs = 6
+
+with Pool(n_procs) as p:
+    p.map(create_square, list(range(n_images)))
+
+
+for i in range(n_rots):
     image_file = Image.open(square_path/f'square_{i:08d}.png')
     degs = np.random.random()*360
     rotated = image_file.rotate(degs)
