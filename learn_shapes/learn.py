@@ -7,8 +7,8 @@ from tensorflow.keras import layers
 import matplotlib.pyplot as plt
 
 
-batch_size = 200
-epochs = 50
+batch_size = 300
+epochs = 2000
 img_height = 120
 img_width = 120
 
