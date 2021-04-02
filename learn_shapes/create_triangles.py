@@ -6,9 +6,9 @@ from PIL import Image
 
 square_path = Path('data/triangles')
 
-n_points = 999
+n_points = 111 
 n_points_line = int(n_points/3)
-n_images = 1000
+n_images = 2000
 
 bot, top = 0.15, 0.65
 rang = 0.2
@@ -60,7 +60,7 @@ for i in range(n_images):
     plt.close(fig)
 
 
-for i in range(n_images):
+for i in range(n_images*4):
     image_file = Image.open(square_path/f'triangle_{i:08d}.png')
     degs = np.random.random()*360
     rotated = image_file.rotate(degs)

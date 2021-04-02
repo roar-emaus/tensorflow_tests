@@ -6,10 +6,10 @@ from PIL import Image
 
 square_path = Path('data/squares')
 
-n_points = 1000
+n_points = 100
 n_points_line = int(n_points/4)
-n_images = 1000
-bot, top = 0.15, 0.65
+n_images = 2000
+bot, top = 0.05, 0.60
 rang = 0.25
 
 for i in range(n_images):
@@ -54,18 +54,18 @@ for i in range(n_images):
     pixels = 120
     fig, ax = plt.subplots(figsize=(pixels/dpi, pixels/dpi), dpi=dpi)
 
-    linewidth = (np.random.random() + 0.1)*4
+    linewidth = (np.random.random() + 0.1)*9
     ax.plot(x, y, color='black', linewidth=linewidth)
     ax.axis('off')
-    ax.set_ylim((0, 1))
-    ax.set_xlim((0, 1))
+    ax.set_ylim((0.05, 0.95))
+    ax.set_xlim((0.05, 0.95))
     #ax.margins(0)
     ax.set_aspect(1)
     plt.savefig(square_path/f'square_{i:08d}.png')
     plt.close(fig)
 
 
-for i in range(n_images):
+for i in range(n_images*4):
     image_file = Image.open(square_path/f'square_{i:08d}.png')
     degs = np.random.random()*360
     rotated = image_file.rotate(degs)

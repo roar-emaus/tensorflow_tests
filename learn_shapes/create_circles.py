@@ -6,8 +6,10 @@ from PIL import Image
 
 circle_path = Path('data/circles')
 
-n_points = 300
-n_images = 1000
+n_points = 50
+n_images = 2000
+dpi = 50
+pixels = 120
 
 for i in range(n_images):
     
@@ -17,8 +19,8 @@ for i in range(n_images):
     theta_offset_a = np.random.randint(low=0, high=2, size=n_points)
     theta_offset_b = np.random.randint(low=0, high=2, size=n_points)
 
-    theta_offset_a = theta_offset_a*np.random.random(n_points)
-    theta_offset_b = theta_offset_b*np.random.random(n_points)
+    theta_offset_a = theta_offset_a*(np.random.random(n_points)*1.2 - 1.2)
+    theta_offset_b = theta_offset_b*(np.random.random(n_points)*1.2 - 1.2)
 
     theta_offset_a = theta_offset_a/(np.random.random()*10 + 1)
     theta_offset_b = theta_offset_b/(np.random.random()*10 + 1)
@@ -26,16 +28,14 @@ for i in range(n_images):
     theta_a = theta_a + theta_offset_a
     theta_b = theta_b + theta_offset_b
     
-    r_a = np.random.random() + 0.2 
+    r_a = np.random.random() + 0.2
     r_b = np.random.random() + 0.2
     a = r_a*np.cos(theta_a)
     b = r_b*np.sin(theta_b)
     
-    dpi = 100
-    pixels = 120
     fig, ax = plt.subplots(figsize=(pixels/dpi, pixels/dpi), dpi=dpi)
     
-    linewidth = (np.random.random() + 0.1)*4
+    linewidth = (np.random.random() + 0.1)*10
     ax.plot(a, b, color='black', linewidth=linewidth)
     ax.axis('off')
     ax.set_ylim((-1.4, 1.4))
@@ -47,7 +47,7 @@ for i in range(n_images):
     #plt.show()
 
 
-for i in range(n_images):
+for i in range(n_images*4):
     image_file = Image.open(circle_path/f'circle_{i:08d}.png')
     degs = np.random.random()*360
     rotated = image_file.rotate(degs)
