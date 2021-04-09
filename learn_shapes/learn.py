@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 
 batch_size = 300
-epochs = 2000
+epochs = 200
 img_height = 120
 img_width = 120
 
@@ -47,7 +47,7 @@ model = Sequential(
                 30, 20, activation='relu', strides=10, padding='same',
                 kernel_initializer='he_uniform', input_shape=in_shape
                 ),
-            layers.MaxPool2D(2, strides=2),
+            layers.MaxPool2D(2),
             layers.Conv2D(
                 60, 10, activation='relu', strides=5, padding='same',
                 kernel_initializer='he_uniform'
@@ -55,6 +55,8 @@ model = Sequential(
             layers.MaxPool2D(2),
             layers.Flatten(),
             layers.Dense(30, activation='relu', kernel_initializer='he_uniform'),
+            layers.Dropout(0.5),
+            layers.Dense(15, activation='relu', kernel_initializer='he_uniform'),
             layers.Dropout(0.5),
             layers.Dense(n_classes, activation='softmax'),
         ]

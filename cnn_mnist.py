@@ -10,14 +10,15 @@ from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dropout
 # load dataset
 (x_train, y_train), (x_test, y_test) = load_data()
+print(y_train.shape)
+print(y_train)
 # reshape data to have a single channel
 x_train = x_train.reshape((x_train.shape[0], x_train.shape[1], x_train.shape[2], 1))
 x_test = x_test.reshape((x_test.shape[0], x_test.shape[1], x_test.shape[2], 1))
-# determine the shape of the input images
+## determine the shape of the input images
 in_shape = x_train.shape[1:]
-# determine the number of classes
+## determine the number of classes
 n_classes = len(unique(y_train))
-print(in_shape, n_classes)
 # normalize pixel values
 x_train = x_train.astype('float32') / 255.0
 x_test = x_test.astype('float32') / 255.0
